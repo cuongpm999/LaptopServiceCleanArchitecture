@@ -15,11 +15,11 @@ import java.util.Date;
 @MappedSuperclass
 @Data
 public class BaseEntity {
-    @Column(name = "created_time", nullable = false)
+    @Column(name = "created_at", nullable = false)
     @CreationTimestamp
-    private Timestamp createdTime;
+    private Timestamp createdAt;
 
-    @Column(name = "updated_time", nullable = false)
+    @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
-    private Timestamp updatedTime;
+    private Timestamp updatedAt;
 }

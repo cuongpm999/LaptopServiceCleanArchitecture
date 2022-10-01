@@ -21,7 +21,25 @@ public class Manufacturer {
         this.address = address;
     }
 
+    public Manufacturer(Long id, String name, String address, Date createdAt, Date updatedAt, Boolean isDelete) {
+        this.id = id;
+        this.name = name;
+        this.address = address;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.isDelete = isDelete;
+    }
+
     public static Manufacturer create(String name, String address) {
         return new Manufacturer(name, address);
+    }
+
+    public void update(String name, String address){
+        this.name = name;
+        this.address = address;
+    }
+
+    public void delete(){
+        this.isDelete = true;
     }
 }

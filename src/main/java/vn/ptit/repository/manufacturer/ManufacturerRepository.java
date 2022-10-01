@@ -3,6 +3,8 @@ package vn.ptit.repository.manufacturer;
 import org.springframework.stereotype.Repository;
 import vn.ptit.model.Manufacturer;
 
+import java.util.Optional;
+
 @Repository
 public class ManufacturerRepository implements IManufacturerRepository{
     private final ManufacturerJpa manufacturerJpa;
@@ -12,8 +14,18 @@ public class ManufacturerRepository implements IManufacturerRepository{
     }
 
     @Override
-    public void insert(Manufacturer manufacturer) {
+    public void save(Manufacturer manufacturer) {
         ManufacturerEntity entity = ManufacturerEntity.fromDomain(manufacturer);
         manufacturerJpa.save(entity);
+    }
+
+    @Override
+    public Manufacturer getById(long id) {
+        Optional<ManufacturerEntity> optionalManufacturer = manufacturerJpa.findById(id);
+        if(optionalManufacturer.isPresent()){
+            Manufacturer manufacturer = optionalManufacturer.get().toDomain();
+            return manufacturer;
+        }
+        return null;
     }
 }

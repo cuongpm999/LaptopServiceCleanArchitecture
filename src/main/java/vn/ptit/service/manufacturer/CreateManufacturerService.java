@@ -16,7 +16,7 @@ public class CreateManufacturerService {
 
     public void create(CreateInput input) {
         Manufacturer manufacturer = Manufacturer.create(input.name, input.address);
-        manufacturerRepository.insert(manufacturer);
+        manufacturerRepository.save(manufacturer);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

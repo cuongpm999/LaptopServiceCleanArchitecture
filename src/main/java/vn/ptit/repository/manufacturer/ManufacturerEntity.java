@@ -7,6 +7,7 @@ import vn.ptit.model.Manufacturer;
 import vn.ptit.repository.BaseEntity;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "manufacturers")
@@ -30,11 +31,17 @@ public class ManufacturerEntity extends BaseEntity {
     }
 
     @PrePersist
-    void preInsert(){
+    void preInsert() {
         this.isDelete = false;
     }
 
-    public static ManufacturerEntity fromDomain(Manufacturer manufacturer){
+    public static ManufacturerEntity fromDomain(Manufacturer manufacturer) {
         return new ManufacturerEntity(manufacturer.getName(), manufacturer.getAddress());
+    }
+
+    public Manufacturer toDomain() {
+        return new Manufacturer(id, name,
+                address, new Date(getCreatedAt().getTime()),
+                new Date(getUpdatedAt().getTime()), isDelete);
     }
 }
