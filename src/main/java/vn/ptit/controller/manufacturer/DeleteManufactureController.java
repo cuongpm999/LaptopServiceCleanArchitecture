@@ -17,7 +17,7 @@ public class DeleteManufactureController {
         this.deleteManufacturerService = deleteManufacturerService;
     }
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> update(@PathVariable("id") Long id){
         deleteManufacturerService.delete(id);
         return new ResponseEntity<>(new ResponseBody(PagingPayload.empty(),ResponseBody.Status.SUCCESS,ResponseBody.Code.SUCCESS), HttpStatus.OK);

@@ -3,7 +3,9 @@ package vn.ptit.repository.manufacturer;
 import org.springframework.stereotype.Repository;
 import vn.ptit.model.Manufacturer;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 public class ManufacturerRepository implements IManufacturerRepository{
@@ -27,5 +29,10 @@ public class ManufacturerRepository implements IManufacturerRepository{
             return manufacturer;
         }
         return null;
+    }
+
+    @Override
+    public List<Manufacturer> findAll() {
+        return manufacturerJpa.findByIsDeleteFalse().stream().map(ManufacturerEntity::toDomain).collect(Collectors.toList());
     }
 }

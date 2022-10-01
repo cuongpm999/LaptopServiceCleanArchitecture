@@ -33,6 +33,7 @@ public class HibernateConfig {
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();
+        dataSource.setMaximumPoolSize(10);
         return dataSource;
     }
 
