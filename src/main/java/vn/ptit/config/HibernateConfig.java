@@ -33,11 +33,9 @@ public class HibernateConfig {
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();
-        dataSource.setMaximumPoolSize(10);
+        dataSource.setMaximumPoolSize(3);
         return dataSource;
     }
-
-
 
     @Bean
     protected LocalContainerEntityManagerFactoryBean entityManagerFactory() {

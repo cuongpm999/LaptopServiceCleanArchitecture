@@ -49,11 +49,9 @@ public class ResponseBody {
 
     public enum Code {
         SUCCESS(200, "Successful"),
-        CLIENT_ERROR(400, "Client error"),
         UNAUTHORIZED_REQUEST(403, "Unauthorized request"),
         NOT_FOUND(404, "Not found"),
-        TOKEN_NOT_REGISTER(3001, "Token not register"),
-        INVALID_REQUEST_FORMAT(4010, "Invalid request format"),
+        BAD_REQUEST(400, "Bad request"),
         INTERNAL_ERROR(500, "Internal server error");
 
         private final int value;

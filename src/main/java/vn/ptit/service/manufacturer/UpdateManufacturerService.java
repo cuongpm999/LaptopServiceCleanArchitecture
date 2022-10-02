@@ -2,7 +2,10 @@ package vn.ptit.service.manufacturer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import vn.ptit.exception.DataNotFoundException;
+import vn.ptit.exception.InvalidDataException;
 import vn.ptit.model.Manufacturer;
 import vn.ptit.repository.manufacturer.IManufacturerRepository;
 
@@ -14,9 +17,13 @@ public class UpdateManufacturerService {
         this.manufacturerRepository = manufacturerRepository;
     }
 
-    public void update(UpdateInput input){
+    @SneakyThrows
+    public void update(UpdateInput input) {
         Manufacturer manufacturer = manufacturerRepository.getById(input.id);
-        manufacturer.update(input.name,input.address);
+        if (manufacturer == null) {
+            throw new DataNotFoundException("Manufacturer not found");
+        }
+        manufacturer.update(input.name, input.address);
         manufacturerRepository.save(manufacturer);
     }
 

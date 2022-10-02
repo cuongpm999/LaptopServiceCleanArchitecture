@@ -3,6 +3,8 @@ package vn.ptit.model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+import vn.ptit.exception.InvalidDataException;
 
 import java.util.Date;
 
@@ -31,15 +33,27 @@ public class Manufacturer {
     }
 
     public static Manufacturer create(String name, String address) {
+        validateData(name, address);
         return new Manufacturer(name, address);
     }
 
     public void update(String name, String address){
+        validateData(name, address);
         this.name = name;
         this.address = address;
     }
 
     public void delete(){
         this.isDelete = true;
+    }
+
+    @SneakyThrows
+    private static void validateData(String name, String address){
+        if (name == null) {
+            throw new InvalidDataException("Required field [name]");
+        }
+        if(address == null){
+            throw  new InvalidDataException("Required field [address]");
+        }
     }
 }
