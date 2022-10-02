@@ -1,4 +1,4 @@
-package vn.ptit.controller.user;
+package vn.ptit.controller.shipment;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.ptit.controller.ResponseBody;
 import vn.ptit.model.PagingPayload;
-import vn.ptit.service.user.CreateUserService;
+import vn.ptit.service.shipment.CreateShipmentService;
 
-@RequestMapping("/user")
+@RequestMapping("/shipment")
 @RestController
-public class CreateUserController {
-    private final CreateUserService createUserService;
+public class CreateShipmentController {
+    private final CreateShipmentService createShipmentService;
 
-    public CreateUserController(CreateUserService createUserService) {
-        this.createUserService = createUserService;
+    public CreateShipmentController(CreateShipmentService createShipmentService) {
+        this.createShipmentService = createShipmentService;
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<?> create(@RequestBody CreateUserService.CreateInput input){
-        createUserService.create(input);
+    public ResponseEntity<?> create(@RequestBody CreateShipmentService.CreateInput input){
+        createShipmentService.create(input);
         return new ResponseEntity<>(new ResponseBody(PagingPayload.empty(),ResponseBody.Status.SUCCESS,ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 }

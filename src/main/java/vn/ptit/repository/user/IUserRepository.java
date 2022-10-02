@@ -1,5 +1,6 @@
 package vn.ptit.repository.user;
 
+import vn.ptit.model.QueryFilter;
 import vn.ptit.model.User;
 
 import java.util.List;
@@ -10,5 +11,5 @@ public interface IUserRepository {
     User getByUsername(String username);
     User getByEmail(String email);
     User getByMobile(String mobile);
-    List<User> findAll();
+    List<User> findAll(QueryFilter filter);
 }

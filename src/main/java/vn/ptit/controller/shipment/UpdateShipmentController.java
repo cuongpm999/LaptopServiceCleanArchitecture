@@ -1,4 +1,4 @@
-package vn.ptit.controller.user;
+package vn.ptit.controller.shipment;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,20 +8,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import vn.ptit.controller.ResponseBody;
 import vn.ptit.model.PagingPayload;
-import vn.ptit.service.user.UpdateUserService;
+import vn.ptit.service.shipment.UpdateShipmentService;
 
-@RequestMapping("/user")
+@RequestMapping("/shipment")
 @RestController
-public class UpdateUserController {
-    private final UpdateUserService updateUserService;
+public class UpdateShipmentController {
+    private final UpdateShipmentService updateShipmentService;
 
-    public UpdateUserController(UpdateUserService updateUserService) {
-        this.updateUserService = updateUserService;
+    public UpdateShipmentController(UpdateShipmentService updateShipmentService) {
+        this.updateShipmentService = updateShipmentService;
     }
 
     @PutMapping("/update")
-    public ResponseEntity<?> update(@RequestBody UpdateUserService.UpdateInput input){
-        updateUserService.update(input);
+    public ResponseEntity<?> update(@RequestBody UpdateShipmentService.UpdateInput input){
+        updateShipmentService.update(input);
         return new ResponseEntity<>(new ResponseBody(PagingPayload.empty(),ResponseBody.Status.SUCCESS,ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 }
