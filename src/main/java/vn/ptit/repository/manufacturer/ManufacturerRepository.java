@@ -26,12 +26,9 @@ public class ManufacturerRepository implements IManufacturerRepository{
 
     @Override
     public Manufacturer getById(long id) {
-        Optional<ManufacturerEntity> optionalManufacturer = manufacturerJpa.findById(id);
-        if(optionalManufacturer.isPresent()){
-            Manufacturer manufacturer = optionalManufacturer.get().toDomain();
-            return manufacturer;
-        }
-        return null;
+        ManufacturerEntity manufacturerEntity = manufacturerJpa.findByIdAndIsDeleteFalse(id);
+        if(manufacturerEntity == null) return null;
+        return manufacturerEntity.toDomain();
     }
 
     @Override

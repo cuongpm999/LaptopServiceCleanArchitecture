@@ -57,6 +57,7 @@ public class GetManufacturerService {
         @JsonProperty("updated_at")
         private Date updatedAt;
         @JsonAlias("isDelete")
+        @JsonProperty("is_delete")
         private Boolean isDelete;
 
         public static Output createOutput(Manufacturer manufacturer){

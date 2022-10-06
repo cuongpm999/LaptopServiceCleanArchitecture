@@ -11,7 +11,6 @@ import vn.ptit.json.MyObjectMapper;
 import vn.ptit.model.Manufacturer;
 import vn.ptit.model.User;
 import vn.ptit.repository.user.IUserRepository;
-import vn.ptit.service.manufacturer.ListManufacturerService;
 
 import java.util.Date;
 import java.util.List;
@@ -26,6 +25,16 @@ public class GetUserService implements IGetUserService{
 
     @Override
     public List<Output> getList() {
+        return null;
+    }
+
+    @Override
+    public Output getByUsername(String username) {
+        return null;
+    }
+
+    @Override
+    public Output getByEmail(String email) {
         return null;
     }
 

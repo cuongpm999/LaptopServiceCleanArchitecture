@@ -10,4 +10,8 @@ import lombok.NoArgsConstructor;
 public class ImageLaptop {
     private Long id;
     private String source;
+
+    public ImageLaptop(String source) {
+        this.source = source;
+    }
 }

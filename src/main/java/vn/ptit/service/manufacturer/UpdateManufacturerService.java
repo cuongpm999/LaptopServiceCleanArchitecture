@@ -2,6 +2,7 @@ package vn.ptit.service.manufacturer;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Data;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import vn.ptit.exception.DataNotFoundException;
@@ -29,6 +30,7 @@ public class UpdateManufacturerService {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
+    @Data
     public static class UpdateInput {
         public Long id;
         public String name;
