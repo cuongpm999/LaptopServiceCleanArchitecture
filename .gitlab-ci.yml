@@ -2,6 +2,7 @@ image: openjdk:8
 
 stages:
   - build
+  - test
 
 build:
   stage: build
@@ -11,3 +12,10 @@ build:
   artifacts:
     paths:
       - target/EcommerceService-0.0.1-SNAPSHOT.jar
+
+test:
+  stage: test
+  script:
+    - chmod +x ./mvnw
+    - ./mvnw test
+
