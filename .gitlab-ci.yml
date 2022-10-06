@@ -3,6 +3,7 @@ image: openjdk:8
 stages:
   - build
   - test
+  - deploy
 
 build:
   stage: build
@@ -19,3 +20,13 @@ test:
     - chmod +x ./mvnw
     - ./mvnw test
 
+deploy:
+  stage: deploy
+  image: ruby:latest
+  script:
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=laptops-service --api-key=$HEROKU_API_KEY
+  only:
+    - master
