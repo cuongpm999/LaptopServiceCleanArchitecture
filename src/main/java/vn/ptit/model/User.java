@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.SneakyThrows;
+import vn.ptit.exception.InvalidDataException;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -62,14 +63,15 @@ public class User {
     public static User create(String fullName, String address, String email, String mobile,
                               Boolean sex, String dateOfBirth, String username,
                               String password, String position, String avatar){
+        validateDataCreate(fullName, address, email, mobile, sex, dateOfBirth, username, password, position);
         return new User(fullName, address, email, mobile, sex, new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth), username, password, position, avatar);
     }
     @SneakyThrows
-    public void update(String fullName, String address, String email, String mobile,
+    public void update(String fullName, String address, String mobile,
                        Boolean sex, String dateOfBirth, String position, String avatar){
+        validateDataUpdate(fullName, address, mobile, sex, dateOfBirth, position);
         this.fullName = fullName;
         this.address = address;
-        this.email = email;
         this.mobile = mobile;
         this.sex = sex;
         this.dateOfBirth = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
@@ -79,5 +81,58 @@ public class User {
 
     public void delete(){
         this.isDelete = true;
+    }
+
+    @SneakyThrows
+    private static void validateDataCreate(String fullName, String address, String email, String mobile, Boolean sex, String dateOfBirth,
+                                     String username, String password, String position){
+        if (fullName == null) {
+            throw new InvalidDataException("Required field [fullName]");
+        }
+        if (address == null) {
+            throw new InvalidDataException("Required field [address]");
+        }
+        if (email == null) {
+            throw new InvalidDataException("Required field [email]");
+        }
+        if (mobile == null) {
+            throw new InvalidDataException("Required field [mobile]");
+        }
+        if (sex == null) {
+            throw new InvalidDataException("Required field [sex]");
+        }
+        if (dateOfBirth == null) {
+            throw new InvalidDataException("Required field [dateOfBirth]");
+        }
+        if(username == null){
+            throw  new InvalidDataException("Required field [username]");
+        }
+        if(password == null){
+            throw  new InvalidDataException("Required field [password]");
+        }
+        if(position == null){
+            throw  new InvalidDataException("Required field [position]");
+        }
+    }
+    @SneakyThrows
+    private static void validateDataUpdate(String fullName, String address, String mobile, Boolean sex, String dateOfBirth, String position){
+        if (fullName == null) {
+            throw new InvalidDataException("Required field [fullName]");
+        }
+        if (address == null) {
+            throw new InvalidDataException("Required field [address]");
+        }
+        if (mobile == null) {
+            throw new InvalidDataException("Required field [mobile]");
+        }
+        if (sex == null) {
+            throw new InvalidDataException("Required field [sex]");
+        }
+        if (dateOfBirth == null) {
+            throw new InvalidDataException("Required field [dateOfBirth]");
+        }
+        if(position == null){
+            throw  new InvalidDataException("Required field [position]");
+        }
     }
 }

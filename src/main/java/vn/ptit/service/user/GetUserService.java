@@ -6,14 +6,17 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import vn.ptit.exception.DataNotFoundException;
 import vn.ptit.json.MyObjectMapper;
-import vn.ptit.model.Manufacturer;
+import vn.ptit.model.QueryFilter;
 import vn.ptit.model.User;
 import vn.ptit.repository.user.IUserRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GetUserService implements IGetUserService{
@@ -24,18 +27,38 @@ public class GetUserService implements IGetUserService{
     }
 
     @Override
-    public List<Output> getList() {
-        return null;
+    public List<Output> getList(Integer page, Integer limit) {
+        QueryFilter filter = QueryFilter.create(limit,page);
+        return userRepository.findAll(filter).stream().map(Output::createOutput).collect(Collectors.toList());
     }
 
+    @SneakyThrows
     @Override
     public Output getByUsername(String username) {
-        return null;
+        User user = userRepository.getByUsername(username);
+        if(user == null){
+            throw new DataNotFoundException("User not found");
+        }
+        return Output.createOutput(user);
     }
 
+    @SneakyThrows
     @Override
     public Output getByEmail(String email) {
-        return null;
+        User user = userRepository.getByEmail(email);
+        if(user == null){
+            throw new DataNotFoundException("User not found");
+        }
+        return Output.createOutput(user);
+    }
+    @SneakyThrows
+    @Override
+    public Output getById(long id) {
+        User user = userRepository.getById(id);
+        if(user == null){
+            throw new DataNotFoundException("User not found");
+        }
+        return Output.createOutput(user);
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

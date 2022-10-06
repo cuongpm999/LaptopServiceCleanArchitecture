@@ -1,6 +1,9 @@
 package vn.ptit.repository.user;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
+import vn.ptit.model.QueryFilter;
 import vn.ptit.model.User;
 
 import java.util.List;
@@ -33,7 +36,7 @@ public class UserRepository implements IUserRepository{
 
     @Override
     public User getByUsername(String username) {
-        Optional<UserEntity> optionalUser = Optional.ofNullable(userJpa.findByUsername(username));
+        Optional<UserEntity> optionalUser = Optional.ofNullable(userJpa.findByUsernameAndIsDeleteFalse(username));
         if(optionalUser.isPresent()){
             User user = optionalUser.get().toDomain();
             return user;
@@ -43,7 +46,7 @@ public class UserRepository implements IUserRepository{
 
     @Override
     public User getByEmail(String email) {
-        Optional<UserEntity> optionalUser = Optional.ofNullable(userJpa.findByEmail(email));
+        Optional<UserEntity> optionalUser = Optional.ofNullable(userJpa.findByEmailAndIsDeleteFalse(email));
         if(optionalUser.isPresent()){
             User user = optionalUser.get().toDomain();
             return user;
@@ -53,7 +56,7 @@ public class UserRepository implements IUserRepository{
 
     @Override
     public User getByMobile(String mobile) {
-        Optional<UserEntity> optionalUser = Optional.ofNullable(userJpa.findByMobile(mobile));
+        Optional<UserEntity> optionalUser = Optional.ofNullable(userJpa.findByMobileAndIsDeleteFalse(mobile));
         if(optionalUser.isPresent()){
             User user = optionalUser.get().toDomain();
             return user;
@@ -62,7 +65,8 @@ public class UserRepository implements IUserRepository{
     }
 
     @Override
-    public List<User> findAll() {
-        return userJpa.findByIsDeleteFalse().stream().map(UserEntity::toDomain).collect(Collectors.toList());
+    public List<User> findAll(QueryFilter filter) {
+        Pageable pageable = PageRequest.of(filter.getPage(), filter.getLimit());
+        return userJpa.findByIsDeleteFalse(pageable).stream().map(UserEntity::toDomain).collect(Collectors.toList());
     }
 }

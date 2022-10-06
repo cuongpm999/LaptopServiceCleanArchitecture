@@ -1,6 +1,7 @@
 package vn.ptit.config;
 
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,8 @@ import java.util.Properties;
         transactionManagerRef = "transactionManager"
 )
 public class HibernateConfig {
+    @Value("${mysql.datasource.pool.size}")
+    private Integer poolSize;
     @Bean
     @ConfigurationProperties(prefix = "mysql.datasource")
     public DataSourceProperties dataSourceProperties() {
@@ -33,7 +36,7 @@ public class HibernateConfig {
                 .initializeDataSourceBuilder()
                 .type(HikariDataSource.class)
                 .build();
-        dataSource.setMaximumPoolSize(3);
+        dataSource.setMaximumPoolSize(poolSize);
         return dataSource;
     }
 
