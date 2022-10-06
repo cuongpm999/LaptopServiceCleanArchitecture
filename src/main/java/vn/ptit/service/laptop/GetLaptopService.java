@@ -60,12 +60,12 @@ public class GetLaptopService implements IGetLaptopService {
         @JsonAlias("updatedAt")
         @JsonProperty("updated_at")
         private Date updatedAt;
-        @JsonAlias("isDelete")
         private String specifications;
         @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         private String manufacturer;
         @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         private List<String> images;
+        @JsonAlias("isDelete")
         @JsonProperty("is_delete")
         private Boolean isDelete;
 
