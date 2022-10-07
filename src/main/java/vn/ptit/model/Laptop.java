@@ -133,4 +133,29 @@ public class Laptop {
             throw  new InvalidDataException("Required field [images]");
         }
     }
+
+    public void update(String name, Integer category, String hardDrive, String ram, String vga, String cpu,
+                       Double screen, Double price, Double discount, String video, String specifications, List<String> images){
+
+        validateData(name, category, hardDrive, ram, vga, cpu,
+                screen, price, discount, video, specifications, images);
+
+        this.name = name;
+        this.category = Category.getById(category);
+        this.hardDrive = hardDrive;
+        this.ram = ram;
+        this.vga = vga;
+        this.cpu = cpu;
+        this.screen = screen;
+        this.price = price;
+        this.discount = discount;
+        this.video = video;
+        this.specifications = specifications;
+
+        List<ImageLaptop> imageLaptops = new ArrayList<>();
+        for(String image : images){
+            imageLaptops.add(new ImageLaptop(image));
+        }
+        this.images = imageLaptops;
+    }
 }

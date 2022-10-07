@@ -10,6 +10,7 @@ import vn.ptit.json.MyObjectMapper;
 import vn.ptit.model.ImageLaptop;
 import vn.ptit.model.Laptop;
 import vn.ptit.model.Manufacturer;
+import vn.ptit.model.QueryFilter;
 import vn.ptit.repository.laptop.ILaptopRepository;
 import vn.ptit.service.manufacturer.GetManufacturerService;
 
@@ -34,6 +35,12 @@ public class GetLaptopService implements IGetLaptopService {
             throw new DataNotFoundException("Laptop not found");
         }
         return Output.createOutput(laptop);
+    }
+
+    @Override
+    public List<Output> getList(Integer page, Integer limit) {
+        QueryFilter filter = QueryFilter.create(limit,page);
+        return laptopRepository.findAll(filter).stream().map(GetLaptopService.Output::createOutput).collect(Collectors.toList());
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
