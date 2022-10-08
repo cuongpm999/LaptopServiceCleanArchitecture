@@ -158,4 +158,8 @@ public class Laptop {
         }
         this.images = imageLaptops;
     }
+
+    public void delete(){
+        this.isDelete = true;
+    }
 }

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.SneakyThrows;
+import org.springframework.stereotype.Service;
 import vn.ptit.exception.DataNotFoundException;
 import vn.ptit.model.Laptop;
 import vn.ptit.model.Manufacturer;
@@ -13,6 +14,7 @@ import vn.ptit.repository.manufacturer.IManufacturerRepository;
 
 import java.util.List;
 
+@Service
 public class UpdateLaptopService {
     private final ILaptopRepository laptopRepository;
     private final IManufacturerRepository manufacturerRepository;
