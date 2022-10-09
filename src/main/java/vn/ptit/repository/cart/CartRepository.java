@@ -42,4 +42,13 @@ public class CartRepository implements ICartRepository {
 
         save(cart);
     }
+
+    @Override
+    public Cart getById(long id) {
+        CartEntity cartEntity = cartJpa.findByIdAndIsDeleteFalse(id);
+        if (cartEntity != null) {
+            return cartEntity.toDomain();
+        }
+        return null;
+    }
 }

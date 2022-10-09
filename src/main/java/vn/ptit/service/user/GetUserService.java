@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class GetUserService implements IGetUserService{
+public class GetUserService implements IGetUserService {
     private final IUserRepository userRepository;
 
     public GetUserService(IUserRepository userRepository) {
@@ -27,8 +27,8 @@ public class GetUserService implements IGetUserService{
     }
 
     @Override
-    public List<Output> getList(Integer page, Integer limit) {
-        QueryFilter filter = QueryFilter.create(limit,page);
+    public List<Output> getList(Integer page, Integer limit, String sort) {
+        QueryFilter filter = QueryFilter.create(limit, page, sort);
         return userRepository.findAll(filter).stream().map(Output::createOutput).collect(Collectors.toList());
     }
 
@@ -36,7 +36,7 @@ public class GetUserService implements IGetUserService{
     @Override
     public Output getByUsername(String username) {
         User user = userRepository.getByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new DataNotFoundException("User not found");
         }
         return Output.createOutput(user);
@@ -46,16 +46,17 @@ public class GetUserService implements IGetUserService{
     @Override
     public Output getByEmail(String email) {
         User user = userRepository.getByEmail(email);
-        if(user == null){
+        if (user == null) {
             throw new DataNotFoundException("User not found");
         }
         return Output.createOutput(user);
     }
+
     @SneakyThrows
     @Override
     public Output getById(long id) {
         User user = userRepository.getById(id);
-        if(user == null){
+        if (user == null) {
             throw new DataNotFoundException("User not found");
         }
         return Output.createOutput(user);
@@ -97,7 +98,7 @@ public class GetUserService implements IGetUserService{
         @JsonAlias("isDelete")
         private Boolean isDelete;
 
-        public static GetUserService.Output createOutput(User user){
+        public static GetUserService.Output createOutput(User user) {
             try {
                 GetUserService.Output output = MyObjectMapper.get()
                         .readValue(MyObjectMapper.get().writeValueAsString(user), GetUserService.Output.class);

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface IGetLaptopService {
     GetLaptopService.Output getById(long id);
-    List<GetLaptopService.Output> getList(Integer page, Integer limit);
+    List<GetLaptopService.Output> getList(Integer page, Integer limit, String sort);
 }

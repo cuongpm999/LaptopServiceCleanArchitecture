@@ -6,4 +6,5 @@ public interface ICartRepository {
     void save(Cart cart);
     Cart findCurrentCart(String username);
     void deleteItemInCart(Cart cart);
+    Cart getById(long id);
 }

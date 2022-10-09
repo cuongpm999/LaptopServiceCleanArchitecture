@@ -45,6 +45,8 @@ public class FindCurrentCartService {
         @JsonAlias("updatedAt")
         @JsonProperty("updated_at")
         private Date updatedAt;
+        @JsonAlias("lineItems")
+        @JsonProperty("line_items")
         private List<LineItemOutput> lineItems;
         private UserOutput user;
         @JsonAlias("totalAmount")
@@ -146,9 +148,6 @@ public class FindCurrentCartService {
             try {
                 Output output = MyObjectMapper.get()
                         .readValue(MyObjectMapper.get().writeValueAsString(cart), Output.class);
-                output.lineItems.forEach(l -> {
-
-                });
                 for (int i = 0; i < output.lineItems.size(); i++) {
                     output.lineItems.get(i).laptop = LineItemOutput.LaptopOutput.createOutput(cart.getLineItems().get(i).getLaptop());
                 }

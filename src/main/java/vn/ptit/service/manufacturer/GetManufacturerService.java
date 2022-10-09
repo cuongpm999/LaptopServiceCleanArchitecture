@@ -26,13 +26,13 @@ public class GetManufacturerService {
         this.manufacturerRepository = manufacturerRepository;
     }
 
-    public List<Output> getList(Integer page, Integer limit){
-        QueryFilter filter = QueryFilter.create(limit,page);
+    public List<Output> getList(Integer page, Integer limit, String sort) {
+        QueryFilter filter = QueryFilter.create(limit, page, sort);
         return manufacturerRepository.findAll(filter).stream().map(Output::createOutput).collect(Collectors.toList());
     }
 
     @SneakyThrows
-    public Output get(long id){
+    public Output get(long id) {
         Manufacturer manufacturer = manufacturerRepository.getById(id);
         if (manufacturer == null) {
             throw new DataNotFoundException("Manufacturer not found");
@@ -60,7 +60,7 @@ public class GetManufacturerService {
         @JsonProperty("is_delete")
         private Boolean isDelete;
 
-        public static Output createOutput(Manufacturer manufacturer){
+        public static Output createOutput(Manufacturer manufacturer) {
             try {
                 Output output = MyObjectMapper.get()
                         .readValue(MyObjectMapper.get().writeValueAsString(manufacturer), Output.class);

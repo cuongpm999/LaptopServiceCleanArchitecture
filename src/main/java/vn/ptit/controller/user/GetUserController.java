@@ -21,14 +21,15 @@ public class GetUserController {
 
     @GetMapping("/list")
     public ResponseEntity<?> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
+                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                  @RequestParam(value = "sort", required = false, defaultValue = "asc") String sort){
         PagingPayload.PagingPayloadBuilder payloadBuilder = PagingPayload.builder();
         payloadBuilder.timestamp(System.currentTimeMillis());
         payloadBuilder.data(getUserService.getList(page,limit));
         return new ResponseEntity<>(new ResponseBody(payloadBuilder.build(),ResponseBody.Status.SUCCESS,ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 
-    @GetMapping ("/get-by-id/{id}")
+    @GetMapping ("/detail/{id}")
     public ResponseEntity<?> getDetailById(@PathVariable("id") Long id){
         if (id == null)
             throw new InvalidRequestException("Require [id]");
@@ -39,8 +40,8 @@ public class GetUserController {
         return new ResponseEntity<>(new ResponseBody(payloadBuilder.build(),ResponseBody.Status.SUCCESS,ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 
-    @GetMapping ("/get-by-username/{username}")
-    public ResponseEntity<?> getDetailByUsername(@PathVariable("username") String username){
+    @GetMapping ("/get-by-username")
+    public ResponseEntity<?> getDetailByUsername(@RequestHeader(name = "username") String username){
         if (username == null || username.isEmpty())
             throw new InvalidRequestException("Require [username]");
 
@@ -50,8 +51,8 @@ public class GetUserController {
         return new ResponseEntity<>(new ResponseBody(payloadBuilder.build(),ResponseBody.Status.SUCCESS,ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 
-    @GetMapping ("/get-by-email/{email}")
-    public ResponseEntity<?> getDetailByEmail(@PathVariable("email") String email){
+    @GetMapping ("/get-by-email")
+    public ResponseEntity<?> getDetailByEmail(@RequestHeader(name = "email") String email){
         if (email == null || email.isEmpty())
             throw new InvalidRequestException("Require [email]");
 
