@@ -68,13 +68,24 @@ public class GetLaptopService implements IGetLaptopService {
         @JsonProperty("updated_at")
         private Date updatedAt;
         private String specifications;
-        @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-        private String manufacturer;
+        private ManufacturerOutput manufacturer;
         @JsonProperty(access = JsonProperty.Access.READ_ONLY)
         private List<String> images;
         @JsonAlias("isDelete")
         @JsonProperty("is_delete")
         private Boolean isDelete;
+
+        @JsonIgnoreProperties(ignoreUnknown = true)
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        @Data
+        public static class ManufacturerOutput {
+            @JsonAlias("id")
+            private Long id;
+            @JsonAlias("name")
+            private String name;
+            @JsonAlias("address")
+            private String address;
+        }
 
         public static GetLaptopService.Output createOutput(Laptop laptop){
             try {
@@ -82,7 +93,6 @@ public class GetLaptopService implements IGetLaptopService {
                         .readValue(MyObjectMapper.get().writeValueAsString(laptop), GetLaptopService.Output.class);
                 output.category = laptop.getCategory().getContent();
                 output.images = laptop.getImages().stream().map(ImageLaptop::getSource).collect(Collectors.toList());
-                output.manufacturer = laptop.getManufacturer().getName();
                 return output;
             } catch (JsonProcessingException e) {
                 e.printStackTrace();

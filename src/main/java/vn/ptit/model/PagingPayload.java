@@ -18,6 +18,6 @@ public class PagingPayload<T> {
     private Long timestamp;
 
     public static PagingPayload empty() {
-        return PagingPayload.builder().data(Collections.emptyList()).build();
+        return PagingPayload.builder().data(Collections.emptyList()).timestamp(System.currentTimeMillis()).build();
     }
 }
