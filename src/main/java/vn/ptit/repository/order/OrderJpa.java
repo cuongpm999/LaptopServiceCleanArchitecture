@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface OrderJpa extends JpaRepository<OrderEntity, Long> {
-    List<OrderEntity> findByUser_UsernameOrderByCreatedAtAsc(String username, Pageable pageable);
+    List<OrderEntity> findByUser_Username(String username, Pageable pageable);
 }

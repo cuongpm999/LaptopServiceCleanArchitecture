@@ -20,13 +20,14 @@ public class GetOrderController {
     @GetMapping("/get-by-username")
     public ResponseEntity<?> list(@RequestHeader(name = "username") String username,
                                   @RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page) {
+                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                  @RequestParam(value = "sort", required = false, defaultValue = "asc") String sort) {
         if (username == null || username.isEmpty())
             throw new InvalidRequestException("Require [username]");
 
         PagingPayload.PagingPayloadBuilder payloadBuilder = PagingPayload.builder();
         payloadBuilder.timestamp(System.currentTimeMillis());
-        payloadBuilder.data(getOrderService.getListOrderByUser(username, page, limit));
+        payloadBuilder.data(getOrderService.getListOrderByUser(username, page, limit, sort));
         return new ResponseEntity<>(new ResponseBody(payloadBuilder.build(), ResponseBody.Status.SUCCESS, ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 }

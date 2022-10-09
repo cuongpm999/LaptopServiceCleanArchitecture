@@ -38,8 +38,8 @@ public class GetLaptopService implements IGetLaptopService {
     }
 
     @Override
-    public List<Output> getList(Integer page, Integer limit) {
-        QueryFilter filter = QueryFilter.create(limit,page);
+    public List<Output> getList(Integer page, Integer limit, String sort) {
+        QueryFilter filter = QueryFilter.create(limit,page, sort);
         return laptopRepository.findAll(filter).stream().map(GetLaptopService.Output::createOutput).collect(Collectors.toList());
     }
 

@@ -2,6 +2,7 @@ package vn.ptit.repository.laptop;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ptit.model.Laptop;
@@ -35,7 +36,8 @@ public class LaptopRepository implements ILaptopRepository{
 
     @Override
     public List<Laptop> findAll(QueryFilter filter) {
-        Pageable pageable = PageRequest.of(filter.getPage(), filter.getLimit());
+        Pageable pageable = PageRequest.of(filter.getPage(), filter.getLimit(),
+                filter.getSort().equals("asc") ? Sort.by("updatedAt").ascending() : Sort.by("updatedAt").descending());
         return laptopJpa.findByIsDeleteFalse(pageable).stream().map(LaptopEntity::toDomain).collect(Collectors.toList());
     }
 

@@ -33,10 +33,11 @@ public class GetLaptopController {
 
     @GetMapping("/list")
     public ResponseEntity<?> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
-                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page){
+                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                  @RequestParam(value = "sort", required = false, defaultValue = "asc") String sort){
         PagingPayload.PagingPayloadBuilder payloadBuilder = PagingPayload.builder();
         payloadBuilder.timestamp(System.currentTimeMillis());
-        payloadBuilder.data(getLaptopService.getList(page,limit));
+        payloadBuilder.data(getLaptopService.getList(page,limit, sort));
         return new ResponseEntity<>(new ResponseBody(payloadBuilder.build(),ResponseBody.Status.SUCCESS,ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 }

@@ -37,8 +37,8 @@ public class GetShipmentService implements IGetShipmentService{
     }
 
     @Override
-    public List<Output> getList(Integer page, Integer limit) {
-        QueryFilter filter = QueryFilter.create(limit,page);
+    public List<Output> getList(Integer page, Integer limit, String sort) {
+        QueryFilter filter = QueryFilter.create(limit,page, sort);
         return shipmentRepository.getAll(filter).stream().map(Output::createOutput).collect(Collectors.toList());
     }
 

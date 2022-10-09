@@ -27,8 +27,8 @@ public class GetOrderService implements IGetOrderService {
     }
 
     @Override
-    public List<Output> getListOrderByUser(String username, Integer page, Integer limit) {
-        QueryFilter filter = QueryFilter.create(limit, page);
+    public List<Output> getListOrderByUser(String username, Integer page, Integer limit, String sort) {
+        QueryFilter filter = QueryFilter.create(limit, page, sort);
         return orderRepository.findByUser(username, filter).stream().map(GetOrderService.Output::createOutput).collect(Collectors.toList());
     }
 

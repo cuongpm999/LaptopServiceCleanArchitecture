@@ -2,6 +2,7 @@ package vn.ptit.repository.order;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import vn.ptit.model.Cash;
 import vn.ptit.model.DigitalWallet;
@@ -31,8 +32,9 @@ public class OrderRepository implements IOrderRepository {
 
     @Override
     public List<Order> findByUser(String username, QueryFilter filter) {
-        Pageable pageable = PageRequest.of(filter.getPage(), filter.getLimit());
-        List<OrderEntity> orderEntities = orderJpa.findByUser_UsernameOrderByCreatedAtAsc(username, pageable);
+        Pageable pageable = PageRequest.of(filter.getPage(), filter.getLimit(),
+                filter.getSort().equals("asc") ? Sort.by("updatedAt").ascending() : Sort.by("updatedAt").descending());
+        List<OrderEntity> orderEntities = orderJpa.findByUser_Username(username, pageable);
         List<Order> result = new ArrayList<>();
         orderEntities.forEach(
                 orderEntity -> {

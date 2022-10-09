@@ -2,6 +2,7 @@ package vn.ptit.repository.manufacturer;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import vn.ptit.model.Manufacturer;
 import vn.ptit.model.QueryFilter;
@@ -33,7 +34,8 @@ public class ManufacturerRepository implements IManufacturerRepository{
 
     @Override
     public List<Manufacturer> findAll(QueryFilter filter) {
-        Pageable pageable = PageRequest.of(filter.getPage(), filter.getLimit());
+        Pageable pageable = PageRequest.of(filter.getPage(), filter.getLimit(),
+                filter.getSort().equals("asc") ? Sort.by("updatedAt").ascending() : Sort.by("updatedAt").descending());
         return manufacturerJpa.findByIsDeleteFalse(pageable).stream().map(ManufacturerEntity::toDomain).collect(Collectors.toList());
     }
 }
