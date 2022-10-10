@@ -43,6 +43,18 @@ public class GetLaptopService implements IGetLaptopService {
         return laptopRepository.findAll(filter).stream().map(GetLaptopService.Output::createOutput).collect(Collectors.toList());
     }
 
+    @Override
+    public List<Output> getSameManufacturer(Long manufacturerId, Long id, Integer limit) {
+        return laptopRepository.findSameManufacturer(manufacturerId, id, limit).stream().map(GetLaptopService.Output::createOutput).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Output> filter(Integer page, Integer limit, String sort, String searchText, String manufacturerId,
+                               String category, String cpu, String ram, String hardDrive, String vga) {
+        QueryFilter filter = QueryFilter.create(limit,page, sort);
+        return laptopRepository.filter(filter, searchText, manufacturerId, category, cpu, ram, hardDrive, vga).stream().map(GetLaptopService.Output::createOutput).collect(Collectors.toList());
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Data
