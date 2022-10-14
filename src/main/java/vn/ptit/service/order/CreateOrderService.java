@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vn.ptit.exception.DataNotFoundException;
 import vn.ptit.model.*;
 import vn.ptit.repository.cart.ICartRepository;
@@ -38,39 +39,42 @@ public class CreateOrderService {
     }
 
     @SneakyThrows
-    public void create(CreateInput input){
+    @Transactional
+    public void create(CreateInput input) {
         Shipment shipment = shipmentRepository.getById(input.shipmentId);
-        if(shipment == null){
+        if (shipment == null) {
             throw new DataNotFoundException("Shipment not found");
         }
         User user = userRepository.getById(input.userId);
-        if(user == null){
+        if (user == null) {
             throw new DataNotFoundException("User not found");
         }
         Cart cart = cartRepository.getById(input.cartId);
-        if(cart == null){
+        if (cart == null) {
             throw new DataNotFoundException("Cart not found");
         }
         cart.deleteAll();
 
-        if(input.payment.type==CASH){
-            Cash cash = Cash.create(input.payment.totalMoney,input.payment.cashTendered);
+        if (input.payment.type == CASH) {
+            Cash cash = Cash.create(input.payment.totalMoney, input.payment.cashTendered);
             cash = paymentRepository.saveCash(cash);
-            Order order = Order.create(user,shipment,cart,cash);
+            Order order = Order.create(user, shipment, cart, cash);
             orderRepository.save(order);
-        }
-        else if(input.payment.type==DIGITAL_WALLET){
-            DigitalWallet digitalWallet = DigitalWallet.create(input.payment.totalMoney,input.payment.name);
+            cartRepository.save(cart);
+        } else if (input.payment.type == DIGITAL_WALLET) {
+            DigitalWallet digitalWallet = DigitalWallet.create(input.payment.totalMoney, input.payment.name);
             digitalWallet = paymentRepository.saveDigitalWallet(digitalWallet);
-            Order order = Order.create(user,shipment,cart,digitalWallet);
+            Order order = Order.create(user, shipment, cart, digitalWallet);
             orderRepository.save(order);
+            cartRepository.save(cart);
         }
 
     }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Data
-    public static class CreateInput{
+    public static class CreateInput {
         @JsonAlias("user_id")
         private Long userId;
         @JsonAlias("shipment_id")
@@ -82,7 +86,7 @@ public class CreateOrderService {
         @JsonIgnoreProperties(ignoreUnknown = true)
         @JsonInclude(JsonInclude.Include.NON_NULL)
         @Data
-        public static class PaymentInput{
+        public static class PaymentInput {
             @JsonAlias("total_money")
             private Double totalMoney;
             private String name;

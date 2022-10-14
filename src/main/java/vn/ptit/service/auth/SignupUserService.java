@@ -1,4 +1,4 @@
-package vn.ptit.service.user;
+package vn.ptit.service.auth;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -11,17 +11,17 @@ import vn.ptit.model.User;
 import vn.ptit.repository.user.IUserRepository;
 
 @Service
-public class CreateUserService {
+public class SignupUserService {
     private final IUserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public CreateUserService(IUserRepository userRepository,
+    public SignupUserService(IUserRepository userRepository,
                              PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public void create(CreateInput input){
+    public void signup(CreateInput input){
         if(userRepository.getByEmail(input.email) != null){
             throw new InvalidRequestException("Email existed!");
         }
@@ -32,7 +32,7 @@ public class CreateUserService {
             throw new InvalidRequestException("Mobile existed!");
         }
         User user = User.create(input.fullName, input.address, input.email, input.mobile, input.sex,
-                input.dateOfBirth, input.username, input.password, input.position, input.avatar);
+                input.dateOfBirth, input.username, input.password, "ROLE_USER", input.avatar);
         if(!user.getPassword().isEmpty()){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
@@ -53,7 +53,6 @@ public class CreateUserService {
         private String dateOfBirth;
         private String username;
         private String password;
-        private String position;
         private String avatar;
     }
 }
