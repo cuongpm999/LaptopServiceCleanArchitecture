@@ -17,7 +17,7 @@ public class GetCommentController {
         this.getCommentService = getCommentService;
     }
 
-    @GetMapping("get-comment")
+    @GetMapping("/list")
     public ResponseEntity<?> list(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
                                   @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                   @RequestParam(value = "sort", required = false, defaultValue = "asc") String sort,

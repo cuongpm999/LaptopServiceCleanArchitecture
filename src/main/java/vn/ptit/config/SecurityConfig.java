@@ -60,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/list").hasAnyRole("ADMIN")
                 .antMatchers("/user/detail/**").hasAnyRole("ADMIN")
                 .antMatchers("/user/get*").hasAnyRole("USER")
+                .antMatchers("/user/edit-profile").hasAnyRole("USER", "ADMIN")
                 // ---
 
                 // Laptop api
@@ -91,7 +92,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/order/get*").hasAnyRole("ADMIN", "USER")
                 // ---
 
+                // Comment api
+                .antMatchers("/comment/**").hasAnyRole("ADMIN", "USER")
+                // ---
+
+                // Cart api
                 .antMatchers("/cart/**").hasAnyRole("ADMIN", "USER")
+                // ---
+
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
