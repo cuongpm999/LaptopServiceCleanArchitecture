@@ -43,7 +43,8 @@ public class GetCommentService {
         @JsonProperty("updated_at")
         private Date updatedAt;
         private UserOutput user;
-        private LaptopOutput laptop;
+        @JsonProperty("laptop_id")
+        private Long laptopId;
         @JsonAlias("isDelete")
         @JsonProperty("is_delete")
         private Boolean isDelete;
@@ -63,24 +64,16 @@ public class GetCommentService {
             private String email;
             @JsonAlias("mobile")
             private String mobile;
-            @JsonAlias("position")
-            private String position;
             @JsonAlias("avatar")
             private String avatar;
         }
 
-        @JsonIgnoreProperties(ignoreUnknown = true)
-        @JsonInclude(JsonInclude.Include.NON_NULL)
-        @Data
-        public static class LaptopOutput {
-            @JsonAlias("id")
-            private Long id;
-        }
 
         public static Output createOutput(Comment comment) {
             try {
                 Output output = MyObjectMapper.get()
                         .readValue(MyObjectMapper.get().writeValueAsString(comment), Output.class);
+                output.laptopId = comment.getLaptop().getId();
                 return output;
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
