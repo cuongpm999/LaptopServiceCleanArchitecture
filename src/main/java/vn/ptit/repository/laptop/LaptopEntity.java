@@ -98,6 +98,6 @@ public class LaptopEntity extends BaseEntity {
     public Laptop toDomain() {
         List<ImageLaptop> imageLaptops = images.stream().map(ImageLaptopEntity::toDomain).collect(Collectors.toList());
         return new Laptop(id, name, Laptop.Category.getById(category), hardDrive, ram, vga, cpu, screen, price, discount, video,
-                new Date(getCreatedAt().getTime()), new Date(getUpdatedAt().getTime()), specifications, manufacturer.toDomain(), imageLaptops, isDelete);
+                getCreatedAt(), getUpdatedAt(), specifications, manufacturer.toDomain(), imageLaptops, isDelete);
     }
 }

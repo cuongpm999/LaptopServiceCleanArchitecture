@@ -29,8 +29,10 @@ public class OrderRepository implements IOrderRepository {
     }
 
     @Override
-    public void save(Order order) {
-        orderJpa.save(OrderEntity.fromDomain(order));
+    public Order save(Order order) {
+        OrderEntity orderEntity = OrderEntity.fromDomain(order);
+        orderEntity = orderJpa.save(orderEntity);
+        return orderEntity.toDomain();
     }
 
     @Override

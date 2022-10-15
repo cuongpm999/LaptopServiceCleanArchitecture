@@ -43,10 +43,7 @@ public class LineItemEntity {
 
     public static LineItemEntity fromDomain(LineItem lineItem) {
         LineItemEntity lineItemEntity = new LineItemEntity(lineItem.getId(), lineItem.getQuantity(), lineItem.getDiscount(), lineItem.getPrice());
-
-        LaptopEntity laptopEntity = new LaptopEntity();
-        laptopEntity.setId(lineItem.getLaptop().getId());
-        lineItemEntity.setLaptop(laptopEntity);
+        lineItemEntity.setLaptop(LaptopEntity.fromDomain(lineItem.getLaptop()));
 
         return lineItemEntity;
     }

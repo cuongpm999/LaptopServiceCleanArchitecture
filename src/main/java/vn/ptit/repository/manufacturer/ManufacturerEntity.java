@@ -37,8 +37,6 @@ public class ManufacturerEntity extends BaseEntity {
     }
 
     public Manufacturer toDomain() {
-        return new Manufacturer(id, name,
-                address, new Date(getCreatedAt().getTime()),
-                new Date(getUpdatedAt().getTime()), isDelete);
+        return new Manufacturer(id, name, address, getCreatedAt(), getUpdatedAt(), isDelete);
     }
 }

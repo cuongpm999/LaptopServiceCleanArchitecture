@@ -14,6 +14,7 @@ import vn.ptit.repository.order.IOrderRepository;
 import vn.ptit.repository.payment.IPaymentRepository;
 import vn.ptit.repository.shipment.IShipmentRepository;
 import vn.ptit.repository.user.IUserRepository;
+import vn.ptit.service.mail.SendMailService;
 
 @Service
 public class CreateOrderService {
@@ -25,17 +26,20 @@ public class CreateOrderService {
     private final ICartRepository cartRepository;
     private final IPaymentRepository paymentRepository;
     private final IOrderRepository orderRepository;
+    private final SendMailService sendMailService;
 
     public CreateOrderService(IUserRepository userRepository,
                               IShipmentRepository shipmentRepository,
                               ICartRepository cartRepository,
                               IPaymentRepository paymentRepository,
-                              IOrderRepository orderRepository) {
+                              IOrderRepository orderRepository,
+                              SendMailService sendMailService) {
         this.userRepository = userRepository;
         this.shipmentRepository = shipmentRepository;
         this.cartRepository = cartRepository;
         this.paymentRepository = paymentRepository;
         this.orderRepository = orderRepository;
+        this.sendMailService = sendMailService;
     }
 
     @SneakyThrows
@@ -59,15 +63,23 @@ public class CreateOrderService {
             Cash cash = Cash.create(input.payment.totalMoney, input.payment.cashTendered);
             cash = paymentRepository.saveCash(cash);
             Order order = Order.create(user, shipment, cart, cash);
-            orderRepository.save(order);
+
+            order = orderRepository.save(order);
             cartRepository.save(cart);
+
+            sendMailService.sendMail(order);
         } else if (input.payment.type == DIGITAL_WALLET) {
             DigitalWallet digitalWallet = DigitalWallet.create(input.payment.totalMoney, input.payment.name);
             digitalWallet = paymentRepository.saveDigitalWallet(digitalWallet);
             Order order = Order.create(user, shipment, cart, digitalWallet);
+
             orderRepository.save(order);
             cartRepository.save(cart);
+
+            sendMailService.sendMail(order);
         }
+
+
 
     }
 

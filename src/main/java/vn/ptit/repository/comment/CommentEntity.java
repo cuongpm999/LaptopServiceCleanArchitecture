@@ -45,8 +45,6 @@ public class CommentEntity extends BaseEntity {
     }
 
     public Comment toDomain() {
-        return new Comment(id, star, content, user.toDomain(), laptop.toDomain(),
-                new Date(getCreatedAt().getTime()),
-                new Date(getUpdatedAt().getTime()), isDelete);
+        return new Comment(id, star, content, user.toDomain(), laptop.toDomain(), getCreatedAt(), getUpdatedAt(), isDelete);
     }
 }

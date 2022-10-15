@@ -39,8 +39,6 @@ public class ShipmentEntity extends BaseEntity {
     }
 
     public Shipment toDomain() {
-        return new Shipment(id, name, address, price,
-                new Date(getCreatedAt().getTime()),
-                new Date(getUpdatedAt().getTime()), isDelete);
+        return new Shipment(id, name, address, price, getCreatedAt(), getUpdatedAt(), isDelete);
     }
 }

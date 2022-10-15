@@ -20,7 +20,7 @@ public class UserEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "full_name",nullable = false, length = 255)
+    @Column(name = "full_name", nullable = false, length = 255)
     private String fullName;
     @Column(name = "address", nullable = false, length = 255)
     private String address;
@@ -55,9 +55,7 @@ public class UserEntity extends BaseEntity {
     }
 
     public User toDomain() {
-        return new User(id, fullName, address, email, mobile,
-                sex, dateOfBirth, username, password, position, avatar,
-                new Date(getCreatedAt().getTime()),
-                new Date(getUpdatedAt().getTime()), isDelete);
+        return new User(id, fullName, address, email, mobile, sex, dateOfBirth, username, password, position, avatar,
+                getCreatedAt(), getUpdatedAt(), isDelete);
     }
 }
