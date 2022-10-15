@@ -13,6 +13,8 @@ import java.util.List;
 public interface OrderJpa extends JpaRepository<OrderEntity, Long> {
     List<OrderEntity> findByUser_Username(String username, Pageable pageable);
     @Modifying
-        @Query("update OrderEntity o set o.status = ?1, o.updatedAt = ?2 where o.id = ?3")
+    @Query("update OrderEntity o set o.status = ?1, o.updatedAt = ?2 where o.id = ?3")
     void updateOrderStatus(int status, Timestamp updatedAt, long id);
+    @Query("select sum(o.payment.totalMoney) from OrderEntity o where o.status = 2")
+    Double totalMoneyReceived();
 }
