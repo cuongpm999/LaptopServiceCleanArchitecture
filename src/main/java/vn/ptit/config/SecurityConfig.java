@@ -69,6 +69,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/laptop/update").hasAnyRole("ADMIN")
                 .antMatchers("/laptop/detail/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/laptop/list").hasAnyRole("ADMIN")
+                .antMatchers("/laptop/same").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/laptop/filter").hasAnyRole("ADMIN", "USER")
                 // ---
 
                 // Manufacturer api
@@ -90,6 +92,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Order api
                 .antMatchers("/order/insert").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/order/get*").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/order/list").hasAnyRole("ADMIN")
+                .antMatchers("/order/detail/**").hasAnyRole("ADMIN", "USER")
+                .antMatchers("/order/update-status").hasAnyRole("ADMIN", "USER")
                 // ---
 
                 // Comment api
