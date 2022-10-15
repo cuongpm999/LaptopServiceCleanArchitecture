@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ptit.model.Laptop;
+import vn.ptit.model.LaptopFilter;
 import vn.ptit.model.QueryFilter;
 
 import javax.persistence.EntityManager;
@@ -17,11 +18,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
-public class LaptopRepository implements ILaptopRepository{
+public class LaptopRepository implements ILaptopRepository {
     private final LaptopJpa laptopJpa;
     private final ImageJpa imageJpa;
     @PersistenceContext
     private EntityManager entityManager;
+
     public LaptopRepository(LaptopJpa laptopJpa, ImageJpa imageJpa) {
         this.laptopJpa = laptopJpa;
         this.imageJpa = imageJpa;
@@ -35,7 +37,7 @@ public class LaptopRepository implements ILaptopRepository{
     @Override
     public Laptop findById(long id) {
         LaptopEntity laptopEntity = laptopJpa.findByIsDeleteFalseAndId(id);
-        if(laptopEntity == null)
+        if (laptopEntity == null)
             return null;
         return laptopEntity.toDomain();
     }
@@ -60,71 +62,68 @@ public class LaptopRepository implements ILaptopRepository{
     }
 
     @Override
-    public List<Laptop> filter(QueryFilter filter, String searchText, String manufacturerId, String category,
-                               String cpu, String ram, String hardDrive, String vga) {
-        List<Long> manufacturerIds = new ArrayList<>();
-        List<Integer> categories = new ArrayList<>();
-        List<String> cpus = new ArrayList<>();
-        List<String> rams = new ArrayList<>();
-        List<String> hardDrives = new ArrayList<>();
-        List<String> vgas = new ArrayList<>();
+    public List<Laptop> filter(LaptopFilter laptopFilter) {
+        String searchText = laptopFilter.getSearchText();
+        List<Long> manufacturerIds = laptopFilter.getManufacturerIds();
+        List<Integer> categories = laptopFilter.getCategories();
+        List<String> cpus = laptopFilter.getCpus();
+        List<String> rams = laptopFilter.getRams();
+        List<String> hardDrives = laptopFilter.getHardDrives();
+        List<String> vgas = laptopFilter.getVgas();
+        Integer page = laptopFilter.getQueryFilter().getPage();
+        Integer limit = laptopFilter.getQueryFilter().getLimit();
+        String sort = laptopFilter.getQueryFilter().getSort();
         String jpql = "select l from LaptopEntity l where l.isDelete = false";
-        if(searchText != null && !searchText.equals("")){
+        if (searchText != null && !searchText.equals("")) {
             jpql += " and (l.name LIKE '%" + searchText + "%'" + " or l.manufacturer.name LIKE '%" + searchText + "%')";
         }
-        if(manufacturerId != null && !manufacturerId.equals("")){
-            String[] strManufacturerIds = manufacturerId.split("\\,");
-            manufacturerIds = Arrays.asList(strManufacturerIds).stream().map(Long::parseLong).collect(Collectors.toList());
+        if (manufacturerIds != null && !manufacturerIds.isEmpty()) {
             jpql += " and l.manufacturer.id IN :manufacturerIds";
         }
-        if(category != null && !category.equals("")){
-            String[] strCategoríe = category.split("\\,");
-            categories = Arrays.asList(strCategoríe).stream().map(Integer::parseInt).collect(Collectors.toList());
-            jpql += " and category IN :categories";
+        if (categories != null && !categories.isEmpty()) {
+            jpql += " and l.category IN :categories";
         }
-        if(cpu != null && !cpu.equals("")){
-            cpus = Arrays.asList(cpu.split("\\,"));
-            jpql += " and cpu IN :cpus";
+        if (cpus != null && !cpus.isEmpty()) {
+            jpql += " and l.cpu IN :cpus";
         }
-        if(ram != null && !ram.equals("")){
-            rams = Arrays.asList(ram.split("\\,"));
-            jpql += " and ram IN :rams";
+        if (rams != null && !rams.isEmpty()) {
+            jpql += " and l.ram IN :rams";
         }
-        if(hardDrive != null && !hardDrive.equals("")){
-            hardDrives = Arrays.asList(hardDrive.split("\\,"));
-            jpql += " and hardDrive IN :hardDrives";
+        if (hardDrives != null && !hardDrives.isEmpty()) {
+            jpql += " and l.hardDrive IN :hardDrives";
         }
-        if(vga != null && !vga.equals("")){
-            vgas = Arrays.asList(vga.split("\\,"));
-            jpql += " and vga IN :vgas";
+        if (vgas != null && !vgas.isEmpty()) {
+            jpql += " and l.vga IN :vgas";
         }
         javax.persistence.Query query = entityManager.createQuery(jpql, LaptopEntity.class);
-        if(manufacturerIds.size() > 0){
+        if (manufacturerIds != null && !manufacturerIds.isEmpty()) {
             query.setParameter("manufacturerIds", manufacturerIds);
         }
-        if(categories.size() > 0){
+        if (categories != null && !categories.isEmpty()) {
             query.setParameter("categories", categories);
         }
-        if(cpus.size() > 0){
+        if (cpus != null && !cpus.isEmpty()) {
             query.setParameter("cpus", cpus);
         }
-        if(rams.size() > 0){
+        if (rams != null && !rams.isEmpty()) {
             query.setParameter("rams", rams);
         }
-        if(hardDrives.size() > 0){
+        if (hardDrives != null && !hardDrives.isEmpty()) {
             query.setParameter("hardDrives", hardDrives);
         }
-        if(vgas.size() > 0){
+        if (vgas != null && !vgas.isEmpty()) {
             query.setParameter("vgas", vgas);
         }
+        query.setFirstResult(page * limit);
+        query.setMaxResults(limit);
         List<LaptopEntity> laptops = query.getResultList();
-        if(filter.getSort().equals("asc")){
+        if (sort.equals("asc")) {
             laptops.sort((o1, o2) -> {
                 double price1 = o1.getPrice() * (100 - o1.getDiscount());
                 double price2 = o2.getPrice() * (100 - o2.getDiscount());
                 return Double.compare(price1, price2);
             });
-        }else if(filter.getSort().equals("desc")){
+        } else if (sort.equals("desc")) {
             laptops.sort((o1, o2) -> {
                 double price1 = o1.getPrice() * (100 - o1.getDiscount());
                 double price2 = o2.getPrice() * (100 - o2.getDiscount());

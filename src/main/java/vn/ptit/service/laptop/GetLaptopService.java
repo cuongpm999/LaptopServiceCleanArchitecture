@@ -7,10 +7,7 @@ import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import vn.ptit.exception.DataNotFoundException;
 import vn.ptit.json.MyObjectMapper;
-import vn.ptit.model.ImageLaptop;
-import vn.ptit.model.Laptop;
-import vn.ptit.model.Manufacturer;
-import vn.ptit.model.QueryFilter;
+import vn.ptit.model.*;
 import vn.ptit.repository.laptop.ILaptopRepository;
 import vn.ptit.service.manufacturer.GetManufacturerService;
 
@@ -49,10 +46,12 @@ public class GetLaptopService implements IGetLaptopService {
     }
 
     @Override
-    public List<Output> filter(Integer page, Integer limit, String sort, String searchText, String manufacturerId,
-                               String category, String cpu, String ram, String hardDrive, String vga) {
-        QueryFilter filter = QueryFilter.create(limit,page, sort);
-        return laptopRepository.filter(filter, searchText, manufacturerId, category, cpu, ram, hardDrive, vga).stream().map(GetLaptopService.Output::createOutput).collect(Collectors.toList());
+    public List<Output> filter(Integer page, Integer limit, String sort,
+                               String searchText, List<Long> manufacturerIds,
+                               List<Integer> categories, List<String> cpus,
+                               List<String> rams, List<String> hardDrives, List<String> vgas) {
+        LaptopFilter laptopFilter = LaptopFilter.create(limit, page, sort, searchText, manufacturerIds, categories, cpus, rams, hardDrives, vgas);
+        return laptopRepository.filter(laptopFilter).stream().map(GetLaptopService.Output::createOutput).collect(Collectors.toList());
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

@@ -10,6 +10,7 @@ import vn.ptit.service.laptop.CreateLaptopService;
 import vn.ptit.service.laptop.IGetLaptopService;
 
 import java.util.Collections;
+import java.util.List;
 
 @RequestMapping("/laptop")
 @RestController
@@ -54,16 +55,16 @@ public class GetLaptopController {
     public ResponseEntity<?> filter(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
                                   @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                   @RequestParam(value = "sort", required = false, defaultValue = "asc") String sort,
-                                    @RequestParam(value = "searchText", required = false, defaultValue = "") String searchText,
-                                    @RequestParam(value = "manufacturerId", required = false, defaultValue = "") String manufacturerId,
-                                    @RequestParam(value = "category", required = false, defaultValue = "") String category,
-                                    @RequestParam(value = "cpu", required = false, defaultValue = "") String cpu,
-                                    @RequestParam(value = "ram", required = false, defaultValue = "") String ram,
-                                    @RequestParam(value = "hardDrive", required = false, defaultValue = "") String hardDrive,
-                                    @RequestParam(value = "vga", required = false, defaultValue = "") String vga){
+                                    @RequestParam(value = "key", required = false) String searchText,
+                                    @RequestParam(value = "manufacturer", required = false) List<Long> manufacturerIds,
+                                    @RequestParam(value = "category", required = false) List<Integer> categories,
+                                    @RequestParam(value = "cpu", required = false) List<String> cpus,
+                                    @RequestParam(value = "ram", required = false) List<String> rams,
+                                    @RequestParam(value = "hard-drive", required = false) List<String> hardDrives,
+                                    @RequestParam(value = "vga", required = false) List<String> vgas){
         PagingPayload.PagingPayloadBuilder payloadBuilder = PagingPayload.builder();
         payloadBuilder.timestamp(System.currentTimeMillis());
-        payloadBuilder.data(getLaptopService.filter(page, limit, sort, searchText, manufacturerId, category, cpu, ram, hardDrive, vga));
+        payloadBuilder.data(getLaptopService.filter(page, limit, sort, searchText, manufacturerIds, categories, cpus, rams, hardDrives, vgas));
         return new ResponseEntity<>(new ResponseBody(payloadBuilder.build(),ResponseBody.Status.SUCCESS,ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 }
