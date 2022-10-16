@@ -11,7 +11,7 @@ import java.util.*;
 @Repository
 public class StatShipmentRepository {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
     public List<ShipmentStat> shipmentWithTotalShipped() {
         String sql = "SELECT shipments.*, A.SoLuong FROM shipments, (SELECT COUNT(id) AS SoLuong, shipment_id FROM orders WHERE status = 2 GROUP BY shipment_id) AS A WHERE shipments.id = A.shipment_id AND shipments.is_delete = FALSE";
         Query query = entityManager.createNativeQuery(sql);

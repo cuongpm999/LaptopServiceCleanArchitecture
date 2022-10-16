@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class StatUserRepository {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     public List<UserStat> userWithTotalMoney() {
         String sql = "SELECT users.*, A.TongTien FROM users, " +

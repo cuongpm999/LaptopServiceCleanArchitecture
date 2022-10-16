@@ -14,7 +14,7 @@ import java.util.List;
 @Repository
 public class StatLaptopRepository {
     @PersistenceContext
-    EntityManager entityManager;
+    private EntityManager entityManager;
 
     public List<LaptopStat> laptopWithTotalSold() {
         String sql = "SELECT laptops.*, A.SoLuong FROM laptops, " +
