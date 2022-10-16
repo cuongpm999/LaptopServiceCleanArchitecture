@@ -95,6 +95,11 @@ public class LaptopRepository implements ILaptopRepository {
         if (vgas != null && !vgas.isEmpty()) {
             jpql += " and l.vga IN :vgas";
         }
+
+        if (sort.equals("asc")) {
+            jpql += " order by l.price * (100 - l.discount) asc";
+        } else jpql += " order by l.price * (100 - l.discount) desc";
+
         javax.persistence.Query query = entityManager.createQuery(jpql, LaptopEntity.class);
         if (manufacturerIds != null && !manufacturerIds.isEmpty()) {
             query.setParameter("manufacturerIds", manufacturerIds);
@@ -117,19 +122,7 @@ public class LaptopRepository implements ILaptopRepository {
         query.setFirstResult(page * limit);
         query.setMaxResults(limit);
         List<LaptopEntity> laptops = query.getResultList();
-        if (sort.equals("asc")) {
-            laptops.sort((o1, o2) -> {
-                double price1 = o1.getPrice() * (100 - o1.getDiscount());
-                double price2 = o2.getPrice() * (100 - o2.getDiscount());
-                return Double.compare(price1, price2);
-            });
-        } else if (sort.equals("desc")) {
-            laptops.sort((o1, o2) -> {
-                double price1 = o1.getPrice() * (100 - o1.getDiscount());
-                double price2 = o2.getPrice() * (100 - o2.getDiscount());
-                return Double.compare(price2, price1);
-            });
-        }
+
         return laptops.stream().map(LaptopEntity::toDomain).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,7 @@
 package vn.ptit.repository.statistic;
 
 import org.springframework.stereotype.Repository;
+import vn.ptit.model.QueryFilter;
 import vn.ptit.model.UserStat;
 
 import javax.persistence.EntityManager;
@@ -16,13 +17,22 @@ public class StatUserRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<UserStat> userWithTotalMoney() {
+    public List<UserStat> userWithTotalMoney(QueryFilter filter) {
         String sql = "SELECT users.*, A.TongTien FROM users, " +
                 "(SELECT SUM(total_money) AS TongTien, user_id FROM payments, orders " +
                 "WHERE status = 2 AND payments.id = orders.payment_id GROUP BY user_id) AS A " +
                 "WHERE users.id = A.user_id AND is_delete = FALSE";
+
+        if (filter.getSort().equals("asc")) {
+            sql += " order by A.TongTien asc";
+        } else sql += " order by A.TongTien desc";
+
         Query query = entityManager.createNativeQuery(sql);
+
+        query.setFirstResult(filter.getPage() * filter.getLimit());
+        query.setMaxResults(filter.getLimit());
         List<Object[]> records = query.getResultList();
+
         List<UserStat> userStats = new ArrayList<>();
         for (int i = 0; i < records.size(); i++) {
             UserStat userStat = new UserStat();
@@ -39,8 +49,6 @@ public class StatUserRepository {
             userStat.setTotalMoney(Double.parseDouble(records.get(i)[14].toString()));
             userStats.add(userStat);
         }
-
-        Collections.sort(userStats, (o1, o2) -> o2.getTotalMoney().compareTo(o1.getTotalMoney()));
 
         return userStats;
     }

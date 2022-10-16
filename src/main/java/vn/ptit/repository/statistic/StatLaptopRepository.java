@@ -3,6 +3,7 @@ package vn.ptit.repository.statistic;
 import org.springframework.stereotype.Repository;
 import vn.ptit.model.Laptop;
 import vn.ptit.model.LaptopStat;
+import vn.ptit.model.QueryFilter;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -16,14 +17,23 @@ public class StatLaptopRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<LaptopStat> laptopWithTotalSold() {
+    public List<LaptopStat> laptopWithTotalSold(QueryFilter filter) {
         String sql = "SELECT laptops.*, A.SoLuong FROM laptops, " +
                 "(SELECT sum(quantity) AS SoLuong, laptop_id FROM line_items, orders " +
                 "WHERE status = 2 AND line_items.cart_id = orders.cart_id " +
                 "GROUP BY laptop_id) AS A " +
                 "WHERE laptops.id = A.laptop_id AND is_delete = FALSE";
+
+        if (filter.getSort().equals("asc")) {
+            sql += " order by A.SoLuong asc";
+        } else sql += " order by A.SoLuong desc";
+
         Query query = entityManager.createNativeQuery(sql);
+
+        query.setFirstResult(filter.getPage() * filter.getLimit());
+        query.setMaxResults(filter.getLimit());
         List<Object[]> records = query.getResultList();
+
         List<LaptopStat> laptopStats = new ArrayList<>();
         for (int i = 0; i < records.size(); i++) {
             LaptopStat laptopStat = new LaptopStat();
@@ -42,8 +52,6 @@ public class StatLaptopRepository {
             laptopStat.setTotalSold(Integer.parseInt(records.get(i)[16].toString()));
             laptopStats.add(laptopStat);
         }
-
-        Collections.sort(laptopStats, (o1, o2) -> o2.getTotalSold() - o1.getTotalSold());
 
         return laptopStats;
     }

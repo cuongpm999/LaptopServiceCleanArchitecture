@@ -6,12 +6,12 @@ import vn.ptit.repository.order.OrderJpa;
 import vn.ptit.repository.user.UserJpa;
 
 @Repository
-public class StatisticRepository implements IStatisticRepository{
+public class StatisticTotalCountRepository implements IStatisticTotalCountRepository {
     private final LaptopJpa laptopJpa;
     private final OrderJpa orderJpa;
     private final UserJpa userJpa;
 
-    public StatisticRepository(LaptopJpa laptopJpa, OrderJpa orderJpa, UserJpa userJpa) {
+    public StatisticTotalCountRepository(LaptopJpa laptopJpa, OrderJpa orderJpa, UserJpa userJpa) {
         this.laptopJpa = laptopJpa;
         this.orderJpa = orderJpa;
         this.userJpa = userJpa;

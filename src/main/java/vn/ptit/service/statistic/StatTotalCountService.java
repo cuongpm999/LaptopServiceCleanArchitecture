@@ -1,13 +1,13 @@
 package vn.ptit.service.statistic;
 
 import org.springframework.stereotype.Service;
-import vn.ptit.repository.statistic.IStatisticRepository;
+import vn.ptit.repository.statistic.IStatisticTotalCountRepository;
 
 @Service
 public class StatTotalCountService implements IStatTotalCountService {
-    private final IStatisticRepository statisticRepository;
+    private final IStatisticTotalCountRepository statisticRepository;
 
-    public StatTotalCountService(IStatisticRepository statisticRepository) {
+    public StatTotalCountService(IStatisticTotalCountRepository statisticRepository) {
         this.statisticRepository = statisticRepository;
     }
 

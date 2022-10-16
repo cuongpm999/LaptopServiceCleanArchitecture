@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 import vn.ptit.json.MyObjectMapper;
+import vn.ptit.model.QueryFilter;
 import vn.ptit.model.Shipment;
 import vn.ptit.repository.statistic.StatShipmentRepository;
 
@@ -22,8 +23,9 @@ public class StatShipmentWithTotalShippedService {
         this.statShipmentRepository = statShipmentRepository;
     }
 
-    public List<Output> shipmentWithTotalShipped() {
-        return statShipmentRepository.shipmentWithTotalShipped().stream().map(Output::createOutput).collect(Collectors.toList());
+    public List<Output> shipmentWithTotalShipped(Integer page, Integer limit, String sort) {
+        QueryFilter filter = QueryFilter.create(limit, page, sort);
+        return statShipmentRepository.shipmentWithTotalShipped(filter).stream().map(Output::createOutput).collect(Collectors.toList());
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

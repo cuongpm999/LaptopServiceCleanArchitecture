@@ -112,6 +112,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/cart/**").hasAnyRole("ADMIN", "USER")
                 // ---
 
+                // Statistic api
+                .antMatchers("/statistic/**").hasAnyRole("ADMIN")
+                // ---
+
                 .anyRequest()
                 .authenticated();
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

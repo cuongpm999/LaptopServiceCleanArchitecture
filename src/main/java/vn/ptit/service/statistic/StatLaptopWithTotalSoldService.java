@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import vn.ptit.json.MyObjectMapper;
 import vn.ptit.model.ImageLaptop;
 import vn.ptit.model.Laptop;
+import vn.ptit.model.QueryFilter;
 import vn.ptit.repository.statistic.StatLaptopRepository;
 
 import java.util.List;
@@ -23,8 +24,9 @@ public class StatLaptopWithTotalSoldService {
         this.statLaptopRepository = statLaptopRepository;
     }
 
-    public List<Output> laptopWithTotalSold() {
-        return statLaptopRepository.laptopWithTotalSold().stream().map(Output::createOutput).collect(Collectors.toList());
+    public List<Output> laptopWithTotalSold(Integer page, Integer limit, String sort) {
+        QueryFilter filter = QueryFilter.create(limit, page, sort);
+        return statLaptopRepository.laptopWithTotalSold(filter).stream().map(Output::createOutput).collect(Collectors.toList());
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)

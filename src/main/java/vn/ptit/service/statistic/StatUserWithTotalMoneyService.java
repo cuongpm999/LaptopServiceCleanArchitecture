@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.Data;
 import org.springframework.stereotype.Service;
 import vn.ptit.json.MyObjectMapper;
+import vn.ptit.model.QueryFilter;
 import vn.ptit.model.User;
 import vn.ptit.repository.statistic.StatUserRepository;
 
@@ -22,8 +23,9 @@ public class StatUserWithTotalMoneyService {
     public StatUserWithTotalMoneyService(StatUserRepository statUserRepository) {
         this.statUserRepository = statUserRepository;
     }
-    public List<StatUserWithTotalMoneyService.Output> userWithTotalMoney() {
-        return statUserRepository.userWithTotalMoney().stream().map(Output::createOutput).collect(Collectors.toList());
+    public List<StatUserWithTotalMoneyService.Output> userWithTotalMoney(Integer page, Integer limit, String sort) {
+        QueryFilter filter = QueryFilter.create(limit, page, sort);
+        return statUserRepository.userWithTotalMoney(filter).stream().map(Output::createOutput).collect(Collectors.toList());
     }
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
