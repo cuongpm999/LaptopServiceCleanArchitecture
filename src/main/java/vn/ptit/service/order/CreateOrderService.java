@@ -73,7 +73,7 @@ public class CreateOrderService {
             digitalWallet = paymentRepository.saveDigitalWallet(digitalWallet);
             Order order = Order.create(user, shipment, cart, digitalWallet);
 
-            orderRepository.save(order);
+            order = orderRepository.save(order);
             cartRepository.save(cart);
 
             sendMailService.sendMail(order);
