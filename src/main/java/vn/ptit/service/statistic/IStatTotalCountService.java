@@ -1,6 +1,6 @@
-package vn.ptit.repository.statistic;
+package vn.ptit.service.statistic;
 
-public interface IStatisticRepository {
+public interface IStatTotalCountService {
     Integer totalLaptop();
     Double totalMoneyReceived();
     Integer totalUserPurchased();

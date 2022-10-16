@@ -13,4 +13,5 @@ public interface LaptopJpa extends JpaRepository<LaptopEntity, Long> {
     List<LaptopEntity> findByIsDeleteFalse(Pageable pageable);
     @Query(nativeQuery = true, value="select * from laptops where is_delete = false and manufacturer_id = ?1 and id <> ?2 order by RAND() limit ?3")
     List<LaptopEntity> findSameManufacturer(long manufacturerId, long id, int limit);
+    Integer countByIsDeleteFalse();
 }
