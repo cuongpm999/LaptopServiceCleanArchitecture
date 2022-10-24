@@ -11,6 +11,7 @@ import java.util.Collections;
 
 @RestController
 @RequestMapping("/statistic")
+@CrossOrigin(origins = "*")
 public class StatTotalCountController {
     private final StatTotalCountService statTotalCountService;
 

@@ -12,10 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.ptit.controller.ResponseBody;
 import vn.ptit.model.PagingPayload;
 import vn.ptit.security.JwtTokenProvider;
@@ -30,6 +27,7 @@ import java.util.Collections;
 @RequestMapping("/auth")
 @RestController
 @AllArgsConstructor
+@CrossOrigin(origins = "*")
 public class AuthenticateUserController {
     private final SignupUserService signupUserService;
     private final LoginUserService loginUserService;

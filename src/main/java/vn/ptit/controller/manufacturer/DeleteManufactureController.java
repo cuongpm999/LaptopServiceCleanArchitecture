@@ -11,6 +11,7 @@ import vn.ptit.service.manufacturer.UpdateManufacturerService;
 
 @RequestMapping("/manufacturer")
 @RestController
+@CrossOrigin(origins = "*")
 public class DeleteManufactureController {
     private final DeleteManufacturerService deleteManufacturerService;
 

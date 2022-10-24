@@ -15,6 +15,7 @@ import java.util.List;
 
 @RequestMapping("/laptop")
 @RestController
+@CrossOrigin(origins = "*")
 public class GetLaptopController {
     private final IGetLaptopService getLaptopService;
 

@@ -2,10 +2,7 @@ package vn.ptit.controller.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.ptit.controller.ResponseBody;
 import vn.ptit.exception.InvalidRequestException;
 import vn.ptit.model.PagingPayload;
@@ -13,6 +10,7 @@ import vn.ptit.service.user.DeleteUserService;
 
 @RequestMapping("/user")
 @RestController
+@CrossOrigin(origins = "*")
 public class DeleteUserController {
     private final DeleteUserService deleteUserService;
 

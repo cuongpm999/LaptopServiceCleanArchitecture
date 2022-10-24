@@ -2,16 +2,14 @@ package vn.ptit.controller.comment;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.ptit.controller.ResponseBody;
 import vn.ptit.model.PagingPayload;
 import vn.ptit.service.comment.CreateCommentService;
 
 @RequestMapping("/comment")
 @RestController
+@CrossOrigin(origins = "*")
 public class CreateCommentController {
     private final CreateCommentService createCommentService;
 

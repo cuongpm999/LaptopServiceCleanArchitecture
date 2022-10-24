@@ -10,6 +10,7 @@ import vn.ptit.service.cart.EditItemInCartService;
 
 @RequestMapping("/cart")
 @RestController
+@CrossOrigin(origins = "*")
 public class EditItemInCartController {
     private final EditItemInCartService editItemInCartService;
 

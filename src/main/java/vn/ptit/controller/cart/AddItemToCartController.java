@@ -10,6 +10,7 @@ import vn.ptit.service.cart.AddItemToCartService;
 
 @RequestMapping("/cart")
 @RestController
+@CrossOrigin(origins = "*")
 public class AddItemToCartController {
     private final AddItemToCartService addItemToCartService;
 

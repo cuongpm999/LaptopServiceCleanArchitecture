@@ -12,6 +12,7 @@ import java.util.Collections;
 
 @RequestMapping("/order")
 @RestController
+@CrossOrigin(origins = "*")
 public class GetOrderController {
     private final IGetOrderService getOrderService;
 

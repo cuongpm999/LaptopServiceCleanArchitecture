@@ -10,6 +10,7 @@ import vn.ptit.service.comment.GetCommentService;
 
 @RequestMapping("/comment")
 @RestController
+@CrossOrigin(origins = "*")
 public class GetCommentController {
     private final GetCommentService getCommentService;
 

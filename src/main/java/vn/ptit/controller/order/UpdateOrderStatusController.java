@@ -2,10 +2,7 @@ package vn.ptit.controller.order;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.ptit.controller.ResponseBody;
 import vn.ptit.exception.InvalidRequestException;
 import vn.ptit.model.PagingPayload;
@@ -14,6 +11,7 @@ import vn.ptit.service.order.UpdateStatusOrderService;
 
 @RequestMapping("/order")
 @RestController
+@CrossOrigin(origins = "*")
 public class UpdateOrderStatusController {
     private final UpdateStatusOrderService updateStatusOrderService;
 

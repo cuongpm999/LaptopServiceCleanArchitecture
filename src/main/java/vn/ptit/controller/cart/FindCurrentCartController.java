@@ -12,6 +12,7 @@ import java.util.Collections;
 
 @RequestMapping("/cart")
 @RestController
+@CrossOrigin(origins = "*")
 public class FindCurrentCartController {
     private final FindCurrentCartService findCurrentCartService;
 

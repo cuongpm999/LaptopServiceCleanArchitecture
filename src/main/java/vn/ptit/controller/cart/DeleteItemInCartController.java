@@ -10,6 +10,7 @@ import vn.ptit.service.cart.DeleteItemInCartService;
 
 @RequestMapping("/cart")
 @RestController
+@CrossOrigin(origins = "*")
 public class DeleteItemInCartController {
     private final DeleteItemInCartService deleteItemInCartService;
 

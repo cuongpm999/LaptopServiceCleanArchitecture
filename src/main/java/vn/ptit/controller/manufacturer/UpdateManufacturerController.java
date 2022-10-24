@@ -10,6 +10,7 @@ import vn.ptit.service.manufacturer.UpdateManufacturerService;
 
 @RequestMapping("/manufacturer")
 @RestController
+@CrossOrigin(origins = "*")
 public class UpdateManufacturerController {
     private final UpdateManufacturerService updateManufacturerService;
 

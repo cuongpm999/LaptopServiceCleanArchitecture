@@ -12,6 +12,7 @@ import java.util.Collections;
 
 @RequestMapping("/manufacturer")
 @RestController
+@CrossOrigin(origins = "*")
 public class GetManufacturerController {
     private final GetManufacturerService getManufacturerService;
 

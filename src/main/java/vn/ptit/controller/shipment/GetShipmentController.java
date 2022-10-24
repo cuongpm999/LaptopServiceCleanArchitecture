@@ -12,6 +12,7 @@ import java.util.Collections;
 
 @RequestMapping("/shipment")
 @RestController
+@CrossOrigin(origins = "*")
 public class GetShipmentController {
     private final IGetShipmentService getShipmentService;
 
