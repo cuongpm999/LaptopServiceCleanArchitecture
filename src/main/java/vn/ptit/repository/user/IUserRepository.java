@@ -12,4 +12,5 @@ public interface IUserRepository {
     User getByEmail(String email);
     User getByMobile(String mobile);
     List<User> findAll(QueryFilter filter);
+    List<User> search(QueryFilter filter, String searchText);
 }

@@ -62,6 +62,12 @@ public class GetUserService implements IGetUserService {
         return Output.createOutput(user);
     }
 
+    @Override
+    public List<Output> search(Integer page, Integer limit, String sort, String searchText) {
+        QueryFilter filter = QueryFilter.create(limit, page, sort);
+        return userRepository.search(filter, searchText).stream().map(Output::createOutput).collect(Collectors.toList());
+    }
+
     @JsonIgnoreProperties(ignoreUnknown = true)
     @JsonInclude(JsonInclude.Include.NON_NULL)
     @Data

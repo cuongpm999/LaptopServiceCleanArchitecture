@@ -71,4 +71,11 @@ public class UserRepository implements IUserRepository{
                 filter.getSort().equals("asc") ? Sort.by("updatedAt").ascending() : Sort.by("updatedAt").descending());
         return userJpa.findByIsDeleteFalse(pageable).stream().map(UserEntity::toDomain).collect(Collectors.toList());
     }
+
+    @Override
+    public List<User> search(QueryFilter filter, String searchText) {
+        Pageable pageable = PageRequest.of(filter.getPage(), filter.getLimit(),
+                filter.getSort().equals("asc") ? Sort.by("updatedAt").ascending() : Sort.by("updatedAt").descending());
+        return userJpa.search(pageable, searchText).stream().map(UserEntity::toDomain).collect(Collectors.toList());
+    }
 }
