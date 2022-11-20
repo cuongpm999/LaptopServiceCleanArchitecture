@@ -68,7 +68,7 @@ public class GetUserController {
                                     @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                     @RequestParam(value = "sort", required = false, defaultValue = "asc") String sort,
                                     @RequestParam(value = "key") String searchText) {
-        System.out.println(searchText);
+
         PagingPayload.PagingPayloadBuilder payloadBuilder = PagingPayload.builder();
         payloadBuilder.timestamp(System.currentTimeMillis());
         payloadBuilder.data(getUserService.search(page, limit, sort, searchText));
