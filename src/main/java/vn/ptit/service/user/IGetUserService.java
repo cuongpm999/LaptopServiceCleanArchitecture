@@ -7,4 +7,5 @@ public interface IGetUserService {
     GetUserService.Output getByUsername(String username);
     GetUserService.Output getByEmail(String email);
     GetUserService.Output getById(long id);
+    List<GetUserService.Output> search(Integer page, Integer limit, String sort, String searchText);
 }

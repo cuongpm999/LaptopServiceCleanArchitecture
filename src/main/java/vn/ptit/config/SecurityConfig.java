@@ -69,6 +69,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user/detail/**").hasAnyRole("ADMIN")
                 .antMatchers("/user/get*").hasAnyRole("USER")
                 .antMatchers("/user/edit-profile").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/user/search").hasAnyRole("ADMIN")
                 // ---
 
                 // Laptop api

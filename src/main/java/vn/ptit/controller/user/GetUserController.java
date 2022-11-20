@@ -63,4 +63,16 @@ public class GetUserController {
         return new ResponseEntity<>(new ResponseBody(payloadBuilder.build(), ResponseBody.Status.SUCCESS, ResponseBody.Code.SUCCESS), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<?> search(@RequestParam(value = "limit", required = false, defaultValue = "10") Integer limit,
+                                    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                    @RequestParam(value = "sort", required = false, defaultValue = "asc") String sort,
+                                    @RequestParam(value = "key") String searchText) {
+        System.out.println(searchText);
+        PagingPayload.PagingPayloadBuilder payloadBuilder = PagingPayload.builder();
+        payloadBuilder.timestamp(System.currentTimeMillis());
+        payloadBuilder.data(getUserService.search(page, limit, sort, searchText));
+        return new ResponseEntity<>(new ResponseBody(payloadBuilder.build(), ResponseBody.Status.SUCCESS, ResponseBody.Code.SUCCESS), HttpStatus.OK);
+    }
+
 }
