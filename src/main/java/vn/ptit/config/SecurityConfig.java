@@ -115,7 +115,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // ---
 
                 // Statistic api
-                .antMatchers("/statistic/**").hasAnyRole("ADMIN")
+                .antMatchers("/statistic/shipment-with-total-shipped").hasAnyRole("ADMIN")
+                .antMatchers("/statistic/total-laptop").hasAnyRole("ADMIN")
+                .antMatchers("/statistic/total-money-received").hasAnyRole("ADMIN")
+                .antMatchers("/statistic/total-user-purchased").hasAnyRole("ADMIN")
+                .antMatchers("/statistic/user-with-total-money").hasAnyRole("ADMIN")
+                .antMatchers("/statistic/laptop-with-total-sold").hasAnyRole("ADMIN", "USER")
                 // ---
 
                 .anyRequest()
