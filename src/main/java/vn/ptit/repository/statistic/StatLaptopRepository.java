@@ -1,9 +1,13 @@
 package vn.ptit.repository.statistic;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import vn.ptit.model.ImageLaptop;
 import vn.ptit.model.Laptop;
 import vn.ptit.model.LaptopStat;
 import vn.ptit.model.QueryFilter;
+import vn.ptit.repository.laptop.ImageJpa;
+import vn.ptit.repository.laptop.ImageLaptopEntity;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,11 +15,15 @@ import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class StatLaptopRepository {
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Autowired
+    private ImageJpa imageJpa;
 
     public List<LaptopStat> laptopWithTotalSold(QueryFilter filter) {
         String sql = "SELECT laptops.*, A.SoLuong FROM laptops, " +
@@ -50,6 +58,9 @@ public class StatLaptopRepository {
             laptopStat.setVga(records.get(i)[13].toString());
             laptopStat.setVideo(records.get(i)[14].toString());
             laptopStat.setTotalSold(Integer.parseInt(records.get(i)[16].toString()));
+
+            List<ImageLaptop> imageLaptops = imageJpa.findByLaptop_Id(laptopStat.getId()).stream().map(ImageLaptopEntity::toDomain).collect(Collectors.toList());
+            laptopStat.setImages(imageLaptops);
             laptopStats.add(laptopStat);
         }
 

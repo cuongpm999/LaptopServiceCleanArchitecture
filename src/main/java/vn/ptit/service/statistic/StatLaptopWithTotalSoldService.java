@@ -51,12 +51,15 @@ public class StatLaptopWithTotalSoldService {
         @JsonProperty("total_sold")
         @JsonAlias("totalSold")
         private Integer totalSold;
+        @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+        private List<String> images;
 
         public static StatLaptopWithTotalSoldService.Output createOutput(Laptop laptop){
             try {
                 StatLaptopWithTotalSoldService.Output output = MyObjectMapper.get()
                         .readValue(MyObjectMapper.get().writeValueAsString(laptop), StatLaptopWithTotalSoldService.Output.class);
                 output.category = laptop.getCategory().getContent();
+                output.images = laptop.getImages().stream().map(ImageLaptop::getSource).collect(Collectors.toList());
                 return output;
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
