@@ -41,38 +41,4 @@ public class GetShipmentService implements IGetShipmentService{
         QueryFilter filter = QueryFilter.create(limit,page, sort);
         return shipmentRepository.getAll(filter).stream().map(Output::createOutput).collect(Collectors.toList());
     }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    @Data
-    public static class Output {
-        @JsonAlias("id")
-        private Long id;
-        @JsonAlias("name")
-        private String name;
-        @JsonAlias("address")
-        private String address;
-        @JsonAlias("price")
-        private Double price;
-        @JsonProperty("created_at")
-        @JsonAlias("createdAt")
-        private Date createdAt;
-        @JsonAlias("updatedAt")
-        @JsonProperty("updated_at")
-        private Date updatedAt;
-        @JsonProperty("is_delete")
-        @JsonAlias("isDelete")
-        private Boolean isDelete;
-
-        public static GetShipmentService.Output createOutput(Shipment shipment){
-            try {
-                GetShipmentService.Output output = MyObjectMapper.get()
-                        .readValue(MyObjectMapper.get().writeValueAsString(shipment), GetShipmentService.Output.class);
-                return output;
-            } catch (JsonProcessingException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
-            }
-        }
-    }
 }
