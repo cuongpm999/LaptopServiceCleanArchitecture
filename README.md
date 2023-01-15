@@ -21,4 +21,3 @@ Demo service thương mại điện tử, sản phẩm là laptop, gồm đầy 
 
 ## Triển khai
 - Local: http://localhost:8080/
-- Prod: https://laptops-service.herokuapp.com
